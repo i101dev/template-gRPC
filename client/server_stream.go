@@ -29,7 +29,7 @@ func callSayHelloServerStream(client pb.GreetServiceClient, names *pb.NamesList)
 			log.Fatalf("error while streaming: %+v", err)
 		}
 
-		log.Println("*** >>> @stream.Recv - ", message)
+		log.Println("*** >>> [@client] stream.Recv - ", message)
 	}
 
 	log.Printf("Streaming finished")
