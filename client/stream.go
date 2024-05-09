@@ -87,7 +87,7 @@ func call_SayHello_ServerStr(client pb.GreetServiceClient, names *pb.NamesList) 
 }
 func call_SayHello_BidirStr(client pb.GreetServiceClient, names *pb.NamesList) {
 
-	log.Printf("Bidirectional streaming has started")
+	log.Printf("[Bidirectional] streaming has started")
 
 	stream, err := client.SayHello_BidirStr(context.Background())
 
@@ -111,7 +111,7 @@ func call_SayHello_BidirStr(client pb.GreetServiceClient, names *pb.NamesList) {
 				log.Fatalf("error while streaming: %+v", err)
 			}
 
-			log.Println("*** >>> [0x1] - ", message)
+			log.Println("*** >>> [bidir] message from [server] received on [client] - ", message.Message)
 		}
 
 		close(wait_ch)
@@ -123,16 +123,18 @@ func call_SayHello_BidirStr(client pb.GreetServiceClient, names *pb.NamesList) {
 			Name: name,
 		}
 
+		time.Sleep(1 * time.Second)
+
 		if err := stream.Send(req); err != nil {
-			log.Fatalf("\n*** >>> @client - [bidirectional] - error sending request: %+v", err)
+			log.Fatalf("\n*** >>> @client - [bidir] - error sending request: %+v", err)
 		}
 
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
 	}
 
 	stream.CloseSend()
 
 	<-wait_ch
 
-	log.Printf("Bidirectional streaming has ended")
+	log.Printf("[Bidirectional] streaming has ended")
 }

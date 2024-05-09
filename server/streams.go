@@ -75,14 +75,14 @@ func (s *helloServer) SayHello_BidirStr(stream pb.GreetService_SayHello_BidirStr
 			return err
 		}
 
-		log.Printf("*** >>> [bidirectional] Server got request with name: %v", req.Name)
+		log.Println("*** >>> [bidir] message from [client] received on [server] - ", req.Name)
 
 		res := &pb.HelloResponse{
-			Message: "- What's happening" + req.Name,
+			Message: "Name: " + req.Name,
 		}
 
 		if err := stream.Send(res); err != nil {
-			return fmt.Errorf("\n*** >>> [bidirectional] error sending response stream: %+v", err)
+			return fmt.Errorf("\n*** >>> [bidir] error sending response stream: %+v", err)
 		}
 	}
 }
